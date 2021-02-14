@@ -1,0 +1,177 @@
+{% load static %}
+<div class="container content-offset">
+    {% if not pdfRenderMode == True %}
+    <div class="col auto mb-3">
+        <div class="card bg-warning">
+            <div class="card-header border-0 text-dark-primary">
+                <h1 class="card-title">Attention and Announcement!</h1>
+            </div>
+            <div class="card-body text-dark-secondary">
+                <p>The Task DateTime Detection and Warner Functionality is not implemented! The prescribed *extra* task
+                    that were provided by the developer were not viable and will be discontinued further.
+                    Some alert notifications on site were missing as well. Such as the success notification of new data
+                    being added and data export success notification. Some notifications that were existing is just an
+                    example that if user did something, they will be notified that something happened.
+                    In the end the CRUD works.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.message == "AuthenticationFailed" %}
+    <div class="col auto mb-2">
+        <div class="card bg-danger">
+            <div class="card-header border-0 text-white-primary">
+                <h1 class="card-title">Password Validation Failed!</h1>
+            </div>
+            <div class="card-body text-white">
+                <p>Sorry! I'm unable to proceed your actions. Your password credentials seems to be wrong. The data were
+                    still the same, by the way... Don't worry!
+                </p>
+            </div>
+        </div>
+    </div>
+    {% elif message.message == "InsertionFailed" %}
+    <div class="col auto mb-2">
+        <div class="card bg-warning">
+            <div class="card-header border-0 text-white-primary">
+                <h1 class="card-title">Data Insertion Failed!</h1>
+            </div>
+            <div class="card-body text-white">
+                <p>Sorry! I'm unable to process your data! There should be a conflict on the data that you want to
+                    insert in the database... Technical Information: (Add It Here)
+                </p>
+            </div>
+        </div>
+    </div>
+    {% elif message.message == "DeletionFailed" %}
+    <div class="col auto mb-2">
+        <div class="card bg-error">
+            <div class="card-header border-0 text-white-primary">
+                <h1 class="card-title">Data Deletion Failed!</h1>
+            </div>
+            <div class="card-body text-white">
+                <p>Sorry! I'm unable to delete your data! Please contact your administrator or the developer of this
+                    django project!
+                </p>
+            </div>
+        </div>
+    </div>
+    {% elif message.message == "DeletionSuccess" %}
+    <div class="col auto mb-2">
+        <div class="card bg-success">
+            <div class="card-header border-0 text-white-primary">
+                <h1 class="card-title">Data Deletion Success!</h1>
+            </div>
+            <div class="card-body text-white">
+                <p>Nice! I were able to delete the data you were requested.
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    <div class="row row-cols-lg-2 row-cols-md-1 row-cols-sm-1 dashboard-grid btn-card-align">
+        <div class="col auto mb-3">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#actionAddData" type="button">Add
+                Data</button>
+            <button class="btn btn-danger" data-toggle="modal" data-target="#actionDeleteAllData" type="button">Delete
+                All Data</button>
+            <button class="btn btn-secondary" data-toggle="modal" data-target="#actionExportData" type="button">Export
+                Data to PDF</button>
+        </div>
+    </div>
+    {% else %}
+    <div class="col auto mb-3">
+        <div class="card bg-primary">
+            <div class="card-header border-0 text-white-primary">
+                <h1 class="card-title">Data Report</h1>
+            </div>
+            <div class="card-body text-white-secondary">
+                <p>Hello User! This was the current task that you have right now! You have {{ DataSets.count }} tasks
+                    currently inserted! by this point, it is awesome to have a report printed with styling with the use
+                    of WeasyPrint!
+
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="col auto mb-3">
+        <div class="card">
+            <table class="table mb-0">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Task Name</th>
+                        <th scope="col">Task Type</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Start Time</th>
+                        <th scope="col">End Time</th>
+                        <th scope="col">Created / Modified on</th>
+                        {% if not pdfRenderMode == True %}<th scope="col">Actions</th>{% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if DataSets %}
+                    {% for AllData in DataSets %}
+                    <tr class="{{ AllData.Task_UUID }}">
+                        <th scope="row-{{ forloop.counter }}">{{ forloop.counter }}</th>
+                        <td id="taskName">{{ AllData.Task_Name }}</td>
+                        <td id="taskType">{{ AllData.Task_Type }}</td>
+                        <td id="taskDescription">{{ AllData.Task_Description }}</td>
+                        <td id="taskStartTime">{{ AllData.Task_StartTime|date:'M d, Y, g:i a' }}</td>
+                        <td id="taskEndTime">{{ AllData.Task_EndTime|date:'M d, Y, g:i a' }}</td>
+                        <td id="taskCreateTime">{{ AllData.Task_CreateDate }}</td>
+                        {% if not pdfRenderMode == True %}
+                        <td>
+                            <button class="btn btn-sm btn-icon" data-toggle="modal" data-target="#actionModifyData"
+                                type="button" data-task-id="{{ AllData.Task_UUID }}"><i
+                                    class="material-icons">edit</i></button>
+                            <button class="btn btn-sm btn-icon" type="button" data-toggle="modal"
+                                data-task-name="{{ AllData.Task_Name }}" data-target="#actionDeleteSelectedData"
+                                data-task-id="{{ AllData.Task_UUID }}"><i
+                                    class="material-icons">delete_sweep</i></button>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+                </tbody>
+            </table>
+            <hr class="my-0 w-100">
+            <div class="card-actions align-items-center justify-content-end">
+                {% if not pdfRenderMode == True %}
+                <span class="align-self-center mb-1 mr-2 text-muted d-flex justify-content-between align-items-center"
+                    disabled>Table Pagination is not available as well!</span>
+                <span class="align-self-center mb-1 mx-1 text-muted">Rows per table display:</span>
+                <div class="dropdown">
+                    <button aria-expanded="false" aria-haspopup="true" class="btn btn-flat dropdown-toggle"
+                        data-toggle="dropdown" type="button" disabled>3</button>
+                    <div class="dropdown-menu dropdown-menu-right menu">
+                        <a class="dropdown-item active" href="#">3</a>
+                        <a class="dropdown-item" href="#">5</a>
+                        <a class="dropdown-item" href="#">10</a>
+                        <a class="dropdown-item" href="#">15</a>
+                        <a class="dropdown-item" href="#">20</a>
+                        <a class="dropdown-item" href="#">100</a>
+                        <a class="dropdown-item" href="#">* (Show All)</a>
+                    </div>
+                </div>
+                <span class="align-self-center mb-1 mr-2">{% if DataSets.count %}1{% else %}0{% endif %} of
+                    {{ DataSets.count|default:0 }} <span>
+                        <button class="btn btn-flat" href="#" disabled><i
+                                class="material-icons">chevron_left</i></button>
+                        <button class="btn btn-flat" href="#" disabled><i
+                                class="material-icons">chevron_right</i></button>
+
+                        {% else %}
+                        <span class="align-self-center mb-1 mr-2">PDF Rendered with Love by WeasyPrint~ 💓
+                        </span>
+                        {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

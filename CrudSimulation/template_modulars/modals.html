@@ -1,0 +1,198 @@
+<div class="modal fade" id="actionAddData" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Add Task Data</h5>
+            </div>
+            <div class="modal-body remodify-botton-padding">
+                <div class="mb-3">
+                    Fill the form below to add the data in the database. You can change your data just in case if you
+                    feel you forgot something. Look, just fill the form and you can manage things later. Okay?
+                </div>
+
+                <form enctype="multipart/form-data" method="POST" action="{% url 'implicit_add_data_view' %}"
+                    autocomplete="on">
+                    {% csrf_token %}
+                    <div class="form-row mb-3">
+                        <div class="col">
+                            <div class="floating-label textfield-box">
+                                <label for="addDataTaskName">Task Name</label>
+                                {{ AddData_Form.Task_Name }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="floating-label textfield-box has-value">
+                                <label for="addDataTaskType">Task Type</label>
+                                {{ AddData_Form.Task_Type }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="floating-label textfield-box">
+                            <label for="addTaskDescription">Task Description</label>
+                            {{ AddData_Form.Task_Description }}
+                        </div>
+                    </div>
+                    <div class="form-row mb-3">
+                        <div class="col mb-3">
+                            <div class="floating-label textfield-box">
+                                <label for="addTaskStartTime">Start DateTime</label>
+                                {{ AddData_Form.Task_StartTime }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="floating-label textfield-box">
+                                <label for="addTaskEndTime">End DateTime</label>
+                                {{ AddData_Form.Task_EndTime }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        <button name="action" value="addForm" type="submit" class="btn btn-primary">Add
+                            Data</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="actionModifyData" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Modify Task Data</h5>
+            </div>
+            <div class="modal-body remodify-botton-padding">
+                <div class="mb-3">
+                    Replace any data that you want to replace at. All fields are required by the way. So you shouldn't
+                    be leaving those blanks. Okay?
+                </div>
+
+                <form enctype="multipart/form-data" method="POST" action="{% url 'implicit_update_specific_view' %}" autocomplete="on">
+                    {% csrf_token %}
+                    <div class="form-row mb-3">
+                        <div class="col">
+                            <div class="floating-label textfield-box has-value">
+                                <label for="modifyDataTaskName">Task Name</label>
+                                {{ UpdateData_Form.Task_Name }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="floating-label textfield-box has-value">
+                                <label for="modifyDataTaskType">Task Type</label>
+                                {{ UpdateData_Form.Task_Type }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="floating-label textfield-box has-value">
+                            <label for="modifyTaskDescription">Task Description</label>
+                            {{ UpdateData_Form.Task_Description }}
+                        </div>
+                    </div>
+                    <div class="form-row mb-3">
+                        <div class="col mb-3">
+                            <div class="floating-label textfield-box has-value">
+                                <label for="modifyTaskStartTime">Start DateTime</label>
+                                {{ UpdateData_Form.Task_StartTime }}
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="floating-label textfield-box has-value">
+                                <label for="modifyTaskEndTime">End DateTime</label>
+                                {{ UpdateData_Form.Task_EndTime }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary cancel-modify-data"
+                            data-dismiss="modal">Cancel</button>
+                        <button name="TaskReferenceID" id="taskReference" type="submit" value="" class="btn btn-primary">Update Selected
+                            Data</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="actionDeleteAllData" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Deleting All Existing Task Data</h5>
+            </div>
+            <div class="modal-body">
+                <!-- <div class="mb-3"> -->
+                Are you sure you want to delete all data? This action renders the data unrecoverable! Please do this
+                with caution!!!
+                <!-- </div> -->
+                <!-- <div class="form-group">
+                    <div class="floating-label textfield-box">
+                        <label for="requestAuthentication">Password Authentication</label>
+                        {{ forms.authenticationForm.password }}
+                    </div>
+                </div> -->
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-primary" data-dismiss="modal">Cancel</a>
+                <a type="submit" class="btn btn-danger" href="{% url 'explicit_delete_all_view' %}">Confirm Delete
+                    Action</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="actionDeleteSelectedData" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Deleting Selected Task Data</h5>
+            </div>
+            <div class="modal-body dynamic-content-task-warn">
+
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-primary" data-dismiss="modal">Cancel</a>
+                <a type="submit" class="btn btn-danger btn-url-receiver">Confirm Delete Action</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="actionExportData" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Exporting All Task Data to PDF</h5>
+            </div>
+            <div class="modal-body">
+                <!-- <div class="mb-3"> -->
+                This actions renders all your tasks in PDF Form.
+
+                Complete the required fields below to continue! This was intended because you have the ability to
+                expose a potentially undisclosed data from annonymous people who can find the PDF data.
+                <!-- </div> -->
+
+                <!-- <form enctype="multipart/form-data" method="POST" autocomplete="off">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="floating-label textfield-box">
+                            <label for="requestAuthentication">Password Authentication</label>
+                            {{ forms.authenticationForm.password }}
+                        </div>
+                    </div>
+                </form> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                <a id="dismissableModalConfirm"type="submit" class="btn btn-success" href="{% url 'explicit_export_all_view' %}">Confirm Export Action</a>
+            </div>
+        </div>
+    </div>
+</div>
